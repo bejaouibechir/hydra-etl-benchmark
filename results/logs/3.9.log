@@ -1,0 +1,32 @@
+
+$ /home/ubuntu/bench-envs/tools/bin/python /home/ubuntu/comparatif-orchestration/shared/count_lines.py airbyte_sync.py export.py dags/daily_revenue_simple.py dbt/dbt_project.yml dbt/profiles.yml dbt/models/*/*.sql dbt/models/*/*.yml env.sh
+  34  airbyte_sync.py
+  10  export.py
+  13  dags/daily_revenue_simple.py
+  11  dbt/dbt_project.yml
+  12  dbt/profiles.yml
+   4  dbt/models/marts/revenue_by_country.sql
+   3  dbt/models/marts/revenue_by_month.sql
+   2  dbt/models/staging/stg_customers.sql
+   8  dbt/models/staging/stg_orders.sql
+   7  dbt/models/staging/sources.yml
+   3  env.sh
+ 107  TOTAL (11 files)
+
+$ /home/ubuntu/bench-envs/tools/bin/python /home/ubuntu/comparatif-orchestration/shared/count_lines.py airbyte_sync.py export.py dags/daily_revenue_safe.py dbt/dbt_project.yml dbt/profiles.yml dbt/models/*/*.sql dbt/models/*/*.yml env.sh
+  34  airbyte_sync.py
+  10  export.py
+  37  dags/daily_revenue_safe.py
+  11  dbt/dbt_project.yml
+  12  dbt/profiles.yml
+   4  dbt/models/marts/revenue_by_country.sql
+   3  dbt/models/marts/revenue_by_month.sql
+   2  dbt/models/staging/stg_customers.sql
+   8  dbt/models/staging/stg_orders.sql
+   7  dbt/models/staging/sources.yml
+   3  env.sh
+ 131  TOTAL (11 files)
+
+$ /home/ubuntu/bench-envs/tools/bin/python /home/ubuntu/comparatif-orchestration/shared/count_lines.py airbyte_setup.py
+  58  airbyte_setup.py
+  58  TOTAL (1 files)

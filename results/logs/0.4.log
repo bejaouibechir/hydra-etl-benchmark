@@ -1,0 +1,3 @@
+
+$ /home/ubuntu/bench-envs/tools/bin/python shared/make_data.py shared/data
+ok shared/data

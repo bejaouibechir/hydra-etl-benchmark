@@ -1,0 +1,96 @@
+
+$ /home/ubuntu/bench-envs/airbyte/bin/python airbyte_setup.py <client-id> <client-secret> <private-ip>
+workspace fdfdebf8-9be0-4bc8-b92c-cf8edd5c2e66
+created sources orders_main
+created sources orders_backup
+created sources customers
+created destinations bench_postgres
+POST /connections → 500 {"status":500,"type":"https://reference.airbyte.com/reference/errors","title":"unexpected-problem","detail":"An unexpected problem has occurred. If this is an error that needs to be addressed, please submit a pull request or github issue.","documentationUrl":null,"data":{"message":"Something went wrong in the connector. logs:Something went wrong in the connector. See the logs for more details."}}
+
+$ /home/ubuntu/bench-envs/airbyte/bin/python airbyte_setup.py <client-id> <client-secret> <private-ip>
+workspace fdfdebf8-9be0-4bc8-b92c-cf8edd5c2e66
+exists sources orders_main
+exists sources orders_backup
+exists sources customers
+exists destinations bench_postgres
+POST /connections → 500 {"status":500,"type":"https://reference.airbyte.com/reference/errors","title":"unexpected-problem","detail":"An unexpected problem has occurred. If this is an error that needs to be addressed, please submit a pull request or github issue.","documentationUrl":null,"data":{"message":"Something went wrong in the connector. logs:Something went wrong in the connector. See the logs for more details."}}
+
+$ mkdir -p data/backup && cp /home/ubuntu/comparatif-orchestration/shared/data/orders.csv data/orders.csv && cp /home/ubuntu/comparatif-orchestration/shared/data/customers.csv data/customers.csv && cp /home/ubuntu/comparatif-orchestration/shared/data/orders_backup.csv data/backup/orders.csv
+
+$ pkill -f '[h]ttp.server 8765' || true; sleep 1
+
+$ nohup python3 -m http.server 8765 --bind 0.0.0.0 --directory /home/ubuntu/comparatif-orchestration/airbyte > /tmp/bench-http.log 2>&1 &
+
+$ sleep 2
+
+$ test "$(curl -s -o /dev/null -w '%{http_code}' http://<private-ip>:8765/data/orders.csv)" = 200 && echo données servies || (echo 'les CSV ne sont pas servis : http://<private-ip>:8765/data/orders.csv'; exit 1)
+données servies
+
+$ sudo docker exec airbyte-abctl-control-plane curl -sf -o /dev/null http://<private-ip>:8765/data/orders.csv && echo joignable depuis Airbyte || echo 'ATTENTION : fichiers non joignables depuis Airbyte'
+joignable depuis Airbyte
+
+$ sudo abctl local credentials
+[30;46m[30;46m  INFO   [0m[0m [96m[96mUsing Kubernetes provider:[0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Provider: kind[0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Kubeconfig: /root/.airbyte/abctl/abctl.kubeconfig[0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Context: kind-airbyte-abctl[0m[0m
+[30;42m[30;42m SUCCESS [0m[0m [32m[32mRetrieving your credentials from 'airbyte-auth-secrets'[0m[0m
+[30;46m[30;46m  INFO   [0m[0m [96m[96mCredentials:[0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Email: [not set][0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Password: UAUN14Ezyx01QrxHkTYZBk8nG8scrmqv[0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Client-Id: <redacted>[0m[0m
+[30;46m[30;46m         [0m[0m [96m[96m  Client-Secret: <redacted>[0m[0m
+
+$ /home/ubuntu/bench-envs/airbyte/bin/python airbyte_setup.py <client-id> <client-secret> <private-ip>
+workspace fdfdebf8-9be0-4bc8-b92c-cf8edd5c2e66
+exists sources orders_main
+exists sources orders_backup
+exists sources customers
+exists destinations bench_postgres
+POST /connections → 500 {"status":500,"type":"https://reference.airbyte.com/reference/errors","title":"unexpected-problem","detail":"An unexpected problem has occurred. If this is an error that needs to be addressed, please submit a pull request or github issue.","documentationUrl":null,"data":{"message":"Something went wrong in the connector. logs:Something went wrong in the connector. See the logs for more details."}}
+
+$ mkdir -p data/backup && cp /home/ubuntu/comparatif-orchestration/shared/data/orders.csv data/orders.csv && cp /home/ubuntu/comparatif-orchestration/shared/data/customers.csv data/customers.csv && cp /home/ubuntu/comparatif-orchestration/shared/data/orders_backup.csv data/backup/orders.csv
+
+$ sudo docker rm -f bench-sftp >/dev/null 2>&1 || true
+
+$ sudo docker run -d --name bench-sftp -p 2222:22 -v /home/ubuntu/comparatif-orchestration/airbyte/data:/home/bench/data:ro atmoz/sftp bench:bench:1001
+Unable to find image 'atmoz/sftp:latest' locally
+latest: Pulling from atmoz/sftp
+716226367eab: Pulling fs layer
+c4368f297a17: Pulling fs layer
+b1088b603224: Pulling fs layer
+c1c1a7d83fb1: Pulling fs layer
+4b6889cc4ccf: Pulling fs layer
+716226367eab: Download complete
+c4368f297a17: Download complete
+4b6889cc4ccf: Download complete
+b1088b603224: Download complete
+c1c1a7d83fb1: Download complete
+c1c1a7d83fb1: Pull complete
+716226367eab: Pull complete
+c4368f297a17: Pull complete
+4b6889cc4ccf: Pull complete
+b1088b603224: Pull complete
+Digest: sha256:0960390462a4441dbb63698d7c185b76a41ffcee7b78ff4adf275f3e66f9c475
+Status: Downloaded newer image for atmoz/sftp:latest
+26b4ae04bb35be1a7e4d2e87f1e78f307353addb705197c9c46202d65c000882
+
+$ sleep 3
+
+$ sudo docker exec bench-sftp ls /home/bench/data/orders.csv && echo fichiers visibles par SFTP
+/home/bench/data/orders.csv
+fichiers visibles par SFTP
+
+$ sudo docker exec airbyte-abctl-control-plane bash -c '</dev/tcp/<private-ip>/2222' && echo SFTP joignable depuis Airbyte || echo 'ATTENTION : SFTP non joignable depuis Airbyte'
+SFTP joignable depuis Airbyte
+
+$ /home/ubuntu/bench-envs/airbyte/bin/python airbyte_setup.py <client-id> <client-secret> <private-ip>
+workspace fdfdebf8-9be0-4bc8-b92c-cf8edd5c2e66
+updated sources orders_main
+updated sources orders_backup
+updated sources customers
+updated destinations bench_postgres
+created connections orders_main
+created connections orders_backup
+created connections customers
+ok {'orders_main': '6e9bb35f-009b-4b0b-963f-24e22cbe742f', 'orders_backup': '41006f70-623c-4990-8d33-f58b2b4a4f41', 'customers': '134e49eb-8836-4512-9750-16406fbb1171'}

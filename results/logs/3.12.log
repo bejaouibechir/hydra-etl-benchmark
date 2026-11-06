@@ -1,0 +1,30 @@
+
+$ sudo docker exec airbyte-abctl-control-plane crictl images -q 2>/dev/null | wc -l
+26
+
+$ sudo docker exec airbyte-abctl-control-plane crictl ps -q 2>/dev/null | wc -l
+18
+
+$ sudo docker exec airbyte-abctl-control-plane du -sm /var/lib/containerd 2>/dev/null | cut -f1 || echo 0
+7051
+
+$ sudo docker system df --format '{{.Type}} {{.Size}}'
+Images 8.879GB
+Containers 3.641MB
+Local Volumes 7.646GB
+Build Cache 0B
+
+$ sudo docker exec airbyte-abctl-control-plane crictl images -q 2>/dev/null | wc -l
+26
+
+$ sudo docker exec airbyte-abctl-control-plane crictl ps -q 2>/dev/null | wc -l
+18
+
+$ sudo docker exec airbyte-abctl-control-plane du -sm /var/lib/containerd 2>/dev/null | cut -f1 || echo 0
+7050
+
+$ sudo docker system df --format '{{.Type}} {{.Size}}'
+Images 8.879GB
+Containers 3.641MB
+Local Volumes 7.622GB
+Build Cache 0B

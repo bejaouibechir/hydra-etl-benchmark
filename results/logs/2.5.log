@@ -1,0 +1,14 @@
+
+$ /home/ubuntu/bench-envs/tools/bin/python shared/scenarios.py modern "source /home/ubuntu/bench-envs/modern/bin/activate && source env.sh && airflow dags test daily_revenue_safe" --repeat 3 --out /home/ubuntu/comparatif-orchestration/results/phase2_airflow_dlt_dbt/scenarios_safe.json
+PROGRESS 1/12 normal #1 15.4s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 2/12 normal #2 14.1s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 3/12 normal #3 14.1s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 4/12 missing_source #1 18.4s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 5/12 missing_source #2 17.1s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 6/12 missing_source #3 17.1s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 7/12 bad_amount #1 23.4s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 8/12 bad_amount #2 23.4s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 9/12 bad_amount #3 23.6s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 10/12 bad_date #1 23.5s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 11/12 bad_date #2 23.5s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}
+PROGRESS 12/12 bad_date #3 23.5s {'revenue_by_country': 'backup', 'revenue_by_month': 'backup'}

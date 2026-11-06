@@ -1,0 +1,64 @@
+
+$ sudo docker rm -f bench-pg >/dev/null 2>&1 || true
+
+$ sudo docker run -d --name bench-pg -e POSTGRES_PASSWORD=bench -e POSTGRES_DB=bench -p 5433:5432 postgres:16
+Unable to find image 'postgres:16' locally
+16: Pulling from library/postgres
+6fc242d221a6: Pulling fs layer
+d89068781d71: Pulling fs layer
+879995175298: Pulling fs layer
+fbc84e711712: Pulling fs layer
+7ee6ed8de1c8: Pulling fs layer
+d06edb2e3f43: Pulling fs layer
+3795839385bc: Pulling fs layer
+9b1a18996a22: Pulling fs layer
+28d8a96df569: Pulling fs layer
+b355a8fcc1d3: Pulling fs layer
+dc3e98153fd4: Pulling fs layer
+c60d02d02e9b: Pulling fs layer
+5c4d204f6daa: Pulling fs layer
+cea4f0db46a6: Pulling fs layer
+fbc84e711712: Download complete
+dc3e98153fd4: Download complete
+d06edb2e3f43: Download complete
+7ee6ed8de1c8: Download complete
+d89068781d71: Download complete
+6fc242d221a6: Download complete
+3795839385bc: Download complete
+879995175298: Download complete
+9b1a18996a22: Download complete
+b355a8fcc1d3: Download complete
+cea4f0db46a6: Download complete
+28d8a96df569: Download complete
+c60d02d02e9b: Download complete
+52b2ca0eb4bf: Download complete
+34abe417644f: Download complete
+5c4d204f6daa: Download complete
+d06edb2e3f43: Pull complete
+6fc242d221a6: Pull complete
+3795839385bc: Pull complete
+cea4f0db46a6: Pull complete
+fbc84e711712: Pull complete
+d89068781d71: Pull complete
+879995175298: Pull complete
+9b1a18996a22: Pull complete
+dc3e98153fd4: Pull complete
+7ee6ed8de1c8: Pull complete
+b355a8fcc1d3: Pull complete
+28d8a96df569: Pull complete
+c60d02d02e9b: Pull complete
+5c4d204f6daa: Pull complete
+Digest: sha256:1beaa3084eee2676f20a9cd9928f0bf2c5bf674f8e49f81017912183d377c61c
+Status: Downloaded newer image for postgres:16
+aa3759318a39f8af341c60420f358ead523f06e99107983b6be746baf4edd788
+
+$ for i in $(seq 1 30); do sudo docker exec bench-pg pg_isready -U postgres && break; sleep 2; done
+/var/run/postgresql:5432 - no response
+/var/run/postgresql:5432 - accepting connections
+
+$ pkill -f '[h]ttp.server 8765' || true
+
+$ nohup python3 -m http.server 8765 --bind 0.0.0.0 --directory /home/ubuntu/comparatif-orchestration/airbyte > /tmp/bench-http.log 2>&1 &
+
+$ sleep 2 && curl -sf -o /dev/null http://localhost:8765/ && echo http ok
+http ok

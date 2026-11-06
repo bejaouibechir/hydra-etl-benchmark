@@ -1,0 +1,14 @@
+
+$ /home/ubuntu/bench-envs/tools/bin/python shared/scenarios.py hydra_simple "/home/ubuntu/bench-envs/hydra/bin/hdrctl run ." --repeat 3 --out /home/ubuntu/comparatif-orchestration/results/phase1_hydra/scenarios_simple.json
+PROGRESS 1/12 normal #1 1.3s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 2/12 normal #2 1.2s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 3/12 normal #3 1.2s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 4/12 missing_source #1 0.5s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 5/12 missing_source #2 0.5s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 6/12 missing_source #3 0.5s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 7/12 bad_amount #1 0.7s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 8/12 bad_amount #2 0.7s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 9/12 bad_amount #3 0.7s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 10/12 bad_date #1 1.1s {'revenue_by_country': 'main', 'revenue_by_month': 'previous'}
+PROGRESS 11/12 bad_date #2 1.1s {'revenue_by_country': 'main', 'revenue_by_month': 'previous'}
+PROGRESS 12/12 bad_date #3 1.1s {'revenue_by_country': 'main', 'revenue_by_month': 'previous'}

@@ -1,0 +1,42 @@
+
+$ source /home/ubuntu/bench-envs/airbyte/bin/activate && source env.sh && airflow db migrate && airflow dags reserialize
+2026-10-28T18:29:31.229322Z [info     ] Performing upgrade to the metadata database [airflow.cli.commands.db_command] loc=db_command.py:134 url=sqlite:////home/ubuntu/comparatif-orchestration/airbyte/airflow_home/airflow.db
+2026-10-28T18:29:31.348947Z [info     ] Context impl SQLiteImpl.       [alembic.runtime.migration] loc=migration.py:205
+2026-10-28T18:29:31.349100Z [info     ] Will assume non-transactional DDL. [alembic.runtime.migration] loc=migration.py:208
+2026-10-28T18:29:31.516755Z [warning  ] Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead. [py.warnings] category=StarletteDeprecationWarning filename=/home/ubuntu/bench-envs/airbyte/lib/python3.12/site-packages/fastapi/testclient.py lineno=1
+2026-10-28T18:29:31.568883Z [info     ] Context impl SQLiteImpl.       [alembic.runtime.migration] loc=migration.py:205
+2026-10-28T18:29:31.569018Z [info     ] Will assume non-transactional DDL. [alembic.runtime.migration] loc=migration.py:208
+2026-10-28T18:29:31.569348Z [info     ] Creating Airflow database tables from the ORM [airflow.utils.db] loc=db.py:749
+2026-10-28T18:29:31.569448Z [info     ] Creating global lock context   [airflow.utils.db] loc=db.py:730
+2026-10-28T18:29:31.569538Z [info     ] Pool status: Pool size: 5  Connections in pool: 0 Current Overflow: -4 Current Checked out connections: 1 [airflow.utils.db] loc=db.py:733
+2026-10-28T18:29:31.569636Z [info     ] Creating metadata              [airflow.utils.db] loc=db.py:735
+2026-10-28T18:29:31.962225Z [info     ] Getting alembic config         [airflow.utils.db] loc=db.py:738
+2026-10-28T18:29:31.962911Z [info     ] Stamping migration head        [airflow.utils.db] loc=db.py:741
+2026-10-28T18:29:31.963853Z [info     ] Context impl SQLiteImpl.       [alembic.runtime.migration] loc=migration.py:205
+2026-10-28T18:29:31.963970Z [info     ] Will assume non-transactional DDL. [alembic.runtime.migration] loc=migration.py:208
+2026-10-28T18:29:31.991170Z [info     ] Running stamp_revision  -> d2f4e1b3c5a7 [alembic.runtime.migration] loc=migration.py:611
+2026-10-28T18:29:31.995515Z [info     ] Airflow database tables created [airflow.utils.db] loc=db.py:744
+2026-10-28T18:29:32.013371Z [info     ] Database migration done!       [airflow.cli.commands.db_command] loc=db_command.py:152
+2026-10-28T18:29:33.823587Z [warning  ] Could not import graphviz. Rendering graph to the graphical format will not be possible. 
+You might need to install the graphviz package and necessary system packages.
+Run `pip install graphviz` to attempt to install it. [py.warnings] category=UserWarning filename=/home/ubuntu/bench-envs/airbyte/lib/python3.12/site-packages/airflow/cli/commands/dag_command.py lineno=57
+2026-10-28T18:29:34.118070Z [info     ] DAG bundles loaded: dags-folder [airflow.dag_processing.bundles.manager.DagBundlesManager] loc=manager.py:304
+2026-10-28T18:29:34.119580Z [info     ] Added new DAG bundle dags-folder to the database [airflow.dag_processing.bundles.manager.DagBundlesManager] loc=manager.py:378
+2026-10-28T18:29:34.124101Z [info     ] Filling up the DagBag from /home/ubuntu/comparatif-orchestration/airbyte/dags [airflow.dag_processing.dagbag.BundleDagBag] loc=dagbag.py:460
+2026-10-28T18:29:34.157392Z [info     ] Bulk-writing dags to db        [airflow.serialization.definitions.dag] count=2 loc=dag.py:218
+2026-10-28T18:29:34.166499Z [info     ] Creating ORM DAG for daily_revenue_simple [airflow.dag_processing.collection] loc=collection.py:102
+2026-10-28T18:29:34.166773Z [info     ] Creating ORM DAG for daily_revenue_safe [airflow.dag_processing.collection] loc=collection.py:102
+2026-10-28T18:29:34.167619Z [info     ] get next_dagrun_info_v2        [airflow.serialization.definitions.dag] last_automated_run_info=None loc=dag.py:453 next_info=None
+2026-10-28T18:29:34.167766Z [info     ] setting next dagrun info       [airflow.models.dag] loc=dag.py:848 next_dagrun=None next_dagrun_create_after=None next_dagrun_data_interval_end=None next_dagrun_data_interval_start=None next_dagrun_partition_date=None next_dagrun_partition_key=None
+2026-10-28T18:29:34.168359Z [info     ] get next_dagrun_info_v2        [airflow.serialization.definitions.dag] last_automated_run_info=None loc=dag.py:453 next_info=None
+2026-10-28T18:29:34.168434Z [info     ] setting next dagrun info       [airflow.models.dag] loc=dag.py:848 next_dagrun=None next_dagrun_create_after=None next_dagrun_data_interval_end=None next_dagrun_data_interval_start=None next_dagrun_partition_date=None next_dagrun_partition_key=None
+
+$ source /home/ubuntu/bench-envs/airbyte/bin/activate && source env.sh && airflow dags list
+2026-10-28T18:29:36.123408Z [warning  ] Could not import graphviz. Rendering graph to the graphical format will not be possible. 
+You might need to install the graphviz package and necessary system packages.
+Run `pip install graphviz` to attempt to install it. [py.warnings] category=UserWarning filename=/home/ubuntu/bench-envs/airbyte/lib/python3.12/site-packages/airflow/cli/commands/dag_command.py lineno=57
+dag_id               | fileloc                                                                    | owners  | is_paused | bundle_name | bundle_version
+=====================+============================================================================+=========+===========+=============+===============
+daily_revenue_safe   | /home/ubuntu/comparatif-orchestration/airbyte/dags/daily_revenue_safe.py   | airflow | True      | dags-folder | None          
+daily_revenue_simple | /home/ubuntu/comparatif-orchestration/airbyte/dags/daily_revenue_simple.py | airflow | True      | dags-folder | None          
+                                                                                                                                                      

@@ -1,0 +1,2 @@
+
+$ sudo apt-get update -qq && sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq python3-venv python3-pip curl git ca-certificates >/dev/null

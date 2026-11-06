@@ -1,0 +1,20 @@
+
+$ /home/ubuntu/bench-envs/tools/bin/python shared/scenarios.py airbyte "source /home/ubuntu/bench-envs/airbyte/bin/activate && source env.sh && airflow dags test daily_revenue_simple" --repeat 1 --out /home/ubuntu/comparatif-orchestration/results/phase3_airflow_airbyte_dbt/scenarios_simple.json
+PROGRESS 1/4 normal #1 98.9s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 2/4 missing_source #1 89.1s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 3/4 bad_amount #1 144.1s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 4/4 bad_date #1 149.4s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+
+$ sudo docker exec bench-pg psql -U postgres -d bench -c 'DROP SCHEMA IF EXISTS analytics CASCADE'
+NOTICE:  drop cascades to 4 other objects
+DETAIL:  drop cascades to view analytics.stg_customers
+drop cascades to view analytics.stg_orders
+drop cascades to table analytics.revenue_by_country
+drop cascades to table analytics.revenue_by_month
+DROP SCHEMA
+
+$ /home/ubuntu/bench-envs/tools/bin/python shared/scenarios.py airbyte "source /home/ubuntu/bench-envs/airbyte/bin/activate && source env.sh && airflow dags test daily_revenue_simple" --repeat 1 --out /home/ubuntu/comparatif-orchestration/results/phase3_airflow_airbyte_dbt/scenarios_simple.json
+PROGRESS 1/4 normal #1 137.7s {'revenue_by_country': 'main', 'revenue_by_month': 'main'}
+PROGRESS 2/4 missing_source #1 89.3s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 3/4 bad_amount #1 54.7s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}
+PROGRESS 4/4 bad_date #1 51.3s {'revenue_by_country': 'previous', 'revenue_by_month': 'previous'}

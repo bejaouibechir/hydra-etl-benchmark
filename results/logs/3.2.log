@@ -1,0 +1,14 @@
+
+$ curl -LsfS https://get.airbyte.com | bash -
+Installing for Linux...
+Downloading abctl from https://github.com/airbytehq/abctl/releases/download/v0.30.4/abctl-v0.30.4-linux-amd64.tar.gz
+Installing 'release/abctl-v0.30.4-linux-amd64/abctl' to /usr/local/bin
+
+abctl install succeeded. Run:
+
+   abctl --help
+
+to get started! (You might need to sudo, depending on your docker setup)
+
+$ command -v abctl || ls ~/.local/bin/abctl
+/usr/local/bin/abctl

@@ -1,0 +1,74 @@
+
+$ mkdir -p data/backup && cp /home/ubuntu/comparatif-orchestration/shared/data/orders.csv data/orders.csv && cp /home/ubuntu/comparatif-orchestration/shared/data/customers.csv data/customers.csv && cp /home/ubuntu/comparatif-orchestration/shared/data/orders_backup.csv data/backup/orders.csv
+
+$ sudo docker rm -f bench-sftp >/dev/null 2>&1 || true
+
+$ sudo docker run -d --name bench-sftp -p 2222:22 -v /home/ubuntu/comparatif-orchestration/airbyte/data:/home/bench/data:ro atmoz/sftp bench:bench:1001
+a4e078f4dafa7ef769e5517e1ab9cc195f3fc0f7974d4393b7e44d0a815866a9
+
+$ sleep 3
+
+$ sudo docker exec bench-sftp ls /home/bench/data/orders.csv && echo fichiers visibles par SFTP
+/home/bench/data/orders.csv
+fichiers visibles par SFTP
+
+$ sudo docker exec airbyte-abctl-control-plane bash -c '</dev/tcp/<private-ip>/2222' && echo SFTP joignable depuis Airbyte || echo 'ATTENTION : SFTP non joignable depuis Airbyte'
+SFTP joignable depuis Airbyte
+
+$ /home/ubuntu/bench-envs/airbyte/bin/python airbyte_sync.py orders_main
+job 1 pending
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status succeeded
+
+$ /home/ubuntu/bench-envs/airbyte/bin/python airbyte_sync.py customers
+job 2 pending
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status running
+status succeeded
+
+$ /home/ubuntu/bench-envs/airbyte/bin/dbt run --profiles-dir . --threads 1
+[0m18:29:26  Running with dbt=1.13.0-b1
+[0m18:29:26  Registered adapter: postgres=1.11.0
+[0m18:29:26  Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m18:29:27  Found 4 models, 2 sources, 477 macros
+[0m18:29:27  
+[0m18:29:27  Concurrency: 1 threads (target='dev')
+[0m18:29:27  
+[0m18:29:27  1 of 4 START sql view model analytics.stg_customers ............................ [RUN]
+[0m18:29:27  1 of 4 OK created sql view model analytics.stg_customers ....................... [[32mCREATE VIEW[0m in 0.08s]
+[0m18:29:27  2 of 4 START sql view model analytics.stg_orders ............................... [RUN]
+[0m18:29:27  2 of 4 OK created sql view model analytics.stg_orders .......................... [[32mCREATE VIEW[0m in 0.02s]
+[0m18:29:27  3 of 4 START sql table model analytics.revenue_by_country ...................... [RUN]
+[0m18:29:27  3 of 4 OK created sql table model analytics.revenue_by_country ................. [[32mSELECT 8[0m in 0.13s]
+[0m18:29:27  4 of 4 START sql table model analytics.revenue_by_month ........................ [RUN]
+[0m18:29:28  4 of 4 OK created sql table model analytics.revenue_by_month ................... [[32mSELECT 9[0m in 0.11s]
+[0m18:29:28  
+[0m18:29:28  Finished running 2 table models, 2 view models in 0 hours 0 minutes and 0.45 seconds (0.45s).
+[0m18:29:28  
+[0m18:29:28  [32mCompleted successfully[0m
+[0m18:29:28  
+[0m18:29:28  Done. PASS=4 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=4
