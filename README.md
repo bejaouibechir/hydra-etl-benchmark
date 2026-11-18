@@ -83,14 +83,33 @@ What this says, and does not say:
 - The reader reads the two files one after the other, so a single "mixed" sample a few milliseconds long (as for Airflow) can be a reading artefact. The 0.4 s window of Hydra ETL is not.
 - Few runs: five for Hydra's observe test and three for each of its kill tests; three for Airflow's observe test and two for its kill test. Not yet replayed on the EC2 machine, nor on the Airbyte stack.
 
+### Publishing by generation: the recipe Tim describes, measured
+
+Tim's suggestion: write each run into its own directory, switch one manifest file at the end, and have each reader resolve the manifest once. Both stacks got that variant, with the same short helper (`shared/publish_generation.py`: check the generation is complete, switch the manifest, prune): `hydra_gen/` for Hydra ETL (a `python` action as the last step, **no change to the engine**) and `modern/dags/daily_revenue_safe_gen.py` for Airflow. The reader of `crash_scenario.py --manifest` does what a cooperating reader does.
+
+| Same sandbox, same dates | Hydra ETL generation variant | Airflow generation variant |
+|---|---|---|
+| Reader during a normal run | never a mixed pair (5 runs) | never a mixed pair (2 runs) |
+| Kill as soon as the new generation holds its first report | the manifest stays on the previous generation; the reader sees only `previous \| previous` (6 kills) | same (2 kills, with the 2 s pause of `PROBE_PAUSE` between the two copies) |
+| What is left on disk | one incomplete generation directory, never named by the manifest | same |
+| Next run | refuses to start until `hdrctl workflow undo` (the project keeps `rollback: true` for its fallback) | succeeds |
+
+Reading these results:
+
+- The visibility point is closed for readers that cooperate, in both stacks, by the same recipe. It is a property of the recipe, not of either tool.
+- A reader that still opens `output/revenue_by_country.csv` finds nothing at that path any more: this changes the contract with everything downstream.
+- Pruning keeps the newest three generations. A reader that holds a generation while three more runs publish could lose its files; not tested.
+- Same limits as above: sandbox, few runs, no EC2, no Airbyte stack.
+
 ## Layout
 
 | Folder | Content |
 |---|---|
 | `hydra/`, `hydra_simple/` | Hydra ETL project, safe and simple variants (YAML only) |
-| `modern/` | Airflow DAGs + dlt ingestion + dbt models (DuckDB) |
+| `hydra_gen/` | Hydra ETL project published by generation + manifest (scenario 5; no change to the engine) |
+| `modern/` | Airflow DAGs + dlt ingestion + dbt models (DuckDB); `daily_revenue_safe_gen` publishes by generation + manifest (scenario 5) |
 | `airbyte/` | Airflow DAGs + Airbyte sync and setup scripts + dbt models (PostgreSQL) |
-| `shared/` | data generator, failure scenarios, line counter, report; `crash_scenario.py` and `make_probe_dag.py` (scenario 5) |
+| `shared/` | data generator, failure scenarios, line counter, report; `crash_scenario.py`, `make_probe_dag.py` and `publish_generation.py` (scenario 5) |
 | `run.py` | runs every phase with confirmations, progress and resume points |
 | `volume/` | separate volume test (200,000 to 20 million rows, without Airflow) |
 | `charts/` | charts and the script that draws them |

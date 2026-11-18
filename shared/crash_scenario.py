@@ -12,7 +12,16 @@ four original scenarios do not:
             after the stack's own recovery command (if any).
 
   python crash_scenario.py <stack dir> "<run command>" observe|kill
-         [--repeat N] [--kill-delay SECONDS] [--recover "<command>"] [--out file.json]
+         [--repeat N] [--kill-delay SECONDS] [--recover "<command>"]
+         [--manifest] [--out file.json]
+
+--manifest : the stack publishes each run into output/gen/<generation>/ and switches
+  output/manifest.json at the end (see publish_generation.py). The reader then does
+  what a cooperating reader does: it resolves the manifest, then reads both reports
+  from the generation it names. The kill is sent as soon as a new generation holds its
+  first report while the manifest still names the previous one. The run command must
+  create the generation name itself, e.g.
+      export GEN=g$(date +%s%N); hdrctl run . --param generation=$GEN
 
 Versions are computed by scenarios.py, independently of the stacks.
 """
@@ -20,6 +29,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import signal
 import subprocess
 import sys
@@ -31,25 +41,78 @@ sys.path.insert(0, str(Path(__file__).parent))
 import scenarios as S  # noqa: E402
 
 
-class Reader(threading.Thread):
-    """Reads both outputs in a loop; optionally kills the run at a given pair."""
+def read_pair(stack: Path, vers: dict, manifest: bool) -> tuple:
+    out = stack / "output"
+    if not manifest:
+        return tuple(S.label(out / f"{n}.csv", vers, n) for n in S.OUTPUTS)
+    try:                                   # resolve the manifest ONCE, then stay on that generation
+        gen = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["generation"]
+    except Exception:  # noqa: BLE001
+        return ("no-manifest", "-")
+    d = out / "gen" / gen
+    return tuple(S.label(d / f"{n}.csv", vers, n) for n in S.OUTPUTS)
 
-    def __init__(self, stack: Path, vers: dict, pid_group: int | None, kill_on: tuple | None,
-                 delay: float = 0.0):
+
+def prepare_generation(stack: Path) -> None:
+    """Start state of the manifest variant: the previous reports are generation g0."""
+    out = stack / "output"
+    g0 = out / "gen" / "g0"
+    shutil.rmtree(out / "gen", ignore_errors=True)
+    g0.mkdir(parents=True)
+    for n in S.OUTPUTS:
+        shutil.move(out / f"{n}.csv", g0 / f"{n}.csv")
+    (out / "manifest.json").write_text(json.dumps({"generation": "g0"}), encoding="utf-8")
+
+
+def new_generation_started(stack: Path) -> bool:
+    """A generation other than the one the manifest names already holds a report."""
+    out = stack / "output"
+    try:
+        cur = json.loads((out / "manifest.json").read_text(encoding="utf-8"))["generation"]
+    except Exception:  # noqa: BLE001
+        return False
+    gens = out / "gen"
+    return gens.exists() and any((d / "revenue_by_country.csv").exists()
+                                 for d in gens.iterdir() if d.is_dir() and d.name != cur)
+
+
+def leftovers(stack: Path) -> list:
+    """Generation directories that are not complete (never named by a manifest)."""
+    gens = stack / "output" / "gen"
+    if not gens.exists():
+        return []
+    return sorted(d.name for d in gens.iterdir()
+                  if d.is_dir() and not all((d / f"{n}.csv").exists() for n in S.OUTPUTS))
+
+
+def state(stack: Path, vers: dict, manifest: bool) -> dict:
+    return dict(zip(S.OUTPUTS, read_pair(stack, vers, manifest)))
+
+
+class Reader(threading.Thread):
+    """Reads both outputs in a loop; optionally kills the run at a given moment."""
+
+    def __init__(self, stack: Path, vers: dict, pid_group: int | None, kill: bool,
+                 manifest: bool, delay: float = 0.0):
         super().__init__(daemon=True)
-        self.delay = delay
-        self.out, self.vers, self.pgid, self.kill_on = stack / "output", vers, pid_group, kill_on
+        self.stack, self.vers, self.pgid, self.kill = stack, vers, pid_group, kill
+        self.manifest, self.delay = manifest, delay
         self.stop = threading.Event()
         self.samples: list[tuple[float, str, str]] = []
         self.killed_at: float | None = None
 
+    def should_kill(self, pair: tuple) -> bool:
+        if self.manifest:
+            return new_generation_started(self.stack)
+        return pair == ("main", "previous")
+
     def run(self) -> None:
         t0 = time.monotonic()
         while not self.stop.is_set():
-            pair = tuple(S.label(self.out / f"{n}.csv", self.vers, n) for n in S.OUTPUTS)
+            pair = read_pair(self.stack, self.vers, self.manifest)
             now = time.monotonic() - t0
             self.samples.append((now, *pair))
-            if self.kill_on and pair == self.kill_on and self.killed_at is None:
+            if self.kill and self.killed_at is None and self.should_kill(pair):
                 time.sleep(self.delay)      # 0 = the earliest possible moment
                 try:
                     os.killpg(self.pgid, signal.SIGKILL)
@@ -76,12 +139,13 @@ def summarize(samples: list) -> dict:
 
 
 def run_once(stack: Path, vers: dict, cmd: str, mode: str, recover: str | None,
-             delay: float = 0.0) -> dict:
+             delay: float = 0.0, manifest: bool = False) -> dict:
     S.prepare(stack, vers, "normal")
+    if manifest:
+        prepare_generation(stack)
     p = subprocess.Popen(["bash", "-c", cmd], cwd=stack, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT, text=True, start_new_session=True)
-    kill_on = ("main", "previous") if mode == "kill" else None
-    rd = Reader(stack, vers, os.getpgid(p.pid), kill_on, delay)
+    rd = Reader(stack, vers, os.getpgid(p.pid), mode == "kill", manifest, delay)
     rd.start()
     try:
         log, _ = p.communicate(timeout=300)
@@ -91,27 +155,31 @@ def run_once(stack: Path, vers: dict, cmd: str, mode: str, recover: str | None,
     time.sleep(0.05)
     rd.stop.set()
     rd.join()
-    after = {n: S.label(stack / "output" / f"{n}.csv", vers, n) for n in S.OUTPUTS}
-    row = {"mode": mode, "exit_code": p.returncode, "killed": rd.killed_at is not None,
-           "after_run": after, "consistent_after_run": len(set(after.values())) == 1,
+    after = state(stack, vers, manifest)
+    row = {"mode": mode, "manifest": manifest, "exit_code": p.returncode,
+           "killed": rd.killed_at is not None, "after_run": after,
+           "consistent_after_run": len(set(after.values())) == 1,
            **summarize(rd.samples), "log_tail": log.strip().splitlines()[-6:]}
+    if manifest:
+        row["incomplete_generations_left"] = leftovers(stack)
     if mode == "kill":
         # what does the next scheduled run do?
         q = subprocess.run(["bash", "-c", cmd], cwd=stack, capture_output=True, text=True, timeout=300)
-        nxt = {n: S.label(stack / "output" / f"{n}.csv", vers, n) for n in S.OUTPUTS}
-        row["next_run"] = {"exit_code": q.returncode, "after": nxt,
+        row["next_run"] = {"exit_code": q.returncode, "after": state(stack, vers, manifest),
                            "log_tail": (q.stdout + q.stderr).strip().splitlines()[-6:]}
         if recover:
             r = subprocess.run(["bash", "-c", recover], cwd=stack, capture_output=True, text=True, timeout=300)
-            rec = {n: S.label(stack / "output" / f"{n}.csv", vers, n) for n in S.OUTPUTS}
-            row["recovery"] = {"exit_code": r.returncode, "after": rec,
+            row["recovery"] = {"exit_code": r.returncode, "after": state(stack, vers, manifest),
                                "log_tail": (r.stdout + r.stderr).strip().splitlines()[-6:]}
     return row
 
 
 def main() -> int:
     a = sys.argv[1:]
-    repeat, out, recover, delay = 1, None, None, 0.0
+    repeat, out, recover, delay, manifest = 1, None, None, 0.0, False
+    if "--manifest" in a:
+        manifest = True
+        a.remove("--manifest")
     for flag in ("--repeat", "--out", "--recover", "--kill-delay"):
         if flag in a:
             i = a.index(flag)
@@ -129,7 +197,7 @@ def main() -> int:
     vers = S.versions()
     rows = []
     for k in range(1, repeat + 1):
-        row = run_once(stack, vers, cmd, mode, recover, delay)
+        row = run_once(stack, vers, cmd, mode, recover, delay, manifest)
         rows.append(row)
         print(f"PROGRESS {k}/{repeat} {mode} killed={row['killed']} after={row['after_run']} "
               f"inconsistent={row['inconsistent_seconds']}s", flush=True)

@@ -1,0 +1,6 @@
+destinations:
+  report:
+    type: csv
+    load:
+      table: ../../output/gen/{{ param:generation }}/revenue_by_month.csv
+      mode: replace
