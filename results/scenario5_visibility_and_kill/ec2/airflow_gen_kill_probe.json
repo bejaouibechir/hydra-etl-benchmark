@@ -1,0 +1,137 @@
+[
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 1778,
+    "seconds": 26.5872
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "2026-11-18T14:17:49.483214Z [info     ] [DAG TEST] starting task_id=publish map_index=-1 [airflow.sdk.definitions.dag] loc=dag.py:1501",
+   "2026-11-18T14:17:49.483415Z [info     ] [DAG TEST] running task <TaskInstance: daily_revenue_safe_gen.publish manual__2026-11-18T14:17:26.329466+00:00 [TaskInstanceState.SCHEDULED] ti_id=01a1ef05-068d-7780-b79e-7196856a1e32> [airflow.sdk.definitions.dag] loc=dag.py:1504",
+   "2026-11-18T14:17:49.501510Z [info     ] Task started                   [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef05-60b1-78b5-b967-55747b8c9c43 hostname=ip-172-31-12-151.eu-north-1.compute.internal loc=task_instances.py:226 previous_state=queued ti_id=01a1ef05-068d-7780-b79e-7196856a1e32",
+   "2026-11-18T14:17:49.502776Z [info     ] Task instance state updated    [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef05-60b1-78b5-b967-55747b8c9c43 loc=task_instances.py:254 rows_affected=1 ti_id=01a1ef05-068d-7780-b79e-7196856a1e32",
+   "2026-11-18T14:17:49.528989Z [info     ] Updating RenderedTaskInstanceFields [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef05-60d1-7cf1-aa9f-38ef1095d992 field_count=3 loc=task_instances.py:1017 ti_id=01a1ef05-068d-7780-b79e-7196856a1e32",
+   "2026-11-18T14:17:49.552290Z [info     ] ::endgroup::                   [task] loc=task_runner.py:2232"
+  ],
+  "incomplete_generations_left": [
+   "g1795011442979032740"
+  ],
+  "next_run": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "2026-11-18T14:18:15.724010Z [info     ] Pushing xcom                   [task] loc=task_runner.py:2280 ti=RuntimeTaskInstance(id=UUID('01a1ef05-6c87-7a95-80a8-4bb4252022ce'), task_id='publish', dag_id='daily_revenue_safe_gen', run_id='manual__2026-11-18T14:17:52.446987+00:00', try_number=1, dag_version_id=UUID('01a1eefb-33e0-7c56-a40b-865d8fed5ca2'), map_index=-1, hostname='ip-172-31-12-151.eu-north-1.compute.internal', context_carrier=None, queue='default', task=<Task(_PythonDecoratedOperator): publish>, max_tries=0, start_date=datetime.datetime(2026, 11, 18, 14, 18, 11, 677016, tzinfo=datetime.timezone.utc), end_date=None, state=<TaskInstanceState.RUNNING: 'running'>, is_mapped=False, rendered_map_index=None, sentry_integration='')",
+    "2026-11-18T14:18:15.753860Z [info     ] Task instance state updated    [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef05-c73e-716c-85a7-06356d767c31 loc=task_instances.py:485 new_state=success rows_affected=1 ti_id=01a1ef05-6c87-7a95-80a8-4bb4252022ce",
+    "2026-11-18T14:18:15.761790Z [info     ] ::endgroup::                   [task] loc=task_runner.py:2379",
+    "2026-11-18T14:18:15.770318Z [info     ] [DAG TEST] end task task_id=publish map_index=-1 [airflow.sdk.definitions.dag] loc=dag.py:1563",
+    "2026-11-18T14:18:15.773012Z [info     ] Marking run <DagRun daily_revenue_safe_gen @ 2026-11-18 14:17:52.292360+00:00: manual__2026-11-18T14:17:52.446987+00:00, state:running, queued_at: None. run_type: manual> successful [airflow.models.dagrun.DagRun] loc=dagrun.py:1249",
+    "2026-11-18T14:18:15.773836Z [info     ] DagRun Finished: dag_id=daily_revenue_safe_gen, logical_date=2026-11-18 14:17:52.292360+00:00, run_id=manual__2026-11-18T14:17:52.446987+00:00, run_start_date=2026-11-18 14:17:52.292360+00:00, run_end_date=2026-11-18 14:18:15.773146+00:00, run_duration=23.480786, state=success, run_type=manual, data_interval_start=2026-11-18 14:17:52.292360+00:00, data_interval_end=2026-11-18 14:17:52.292360+00:00, [airflow.models.dagrun.DagRun] loc=dagrun.py:1315"
+   ]
+  }
+ },
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 1756,
+    "seconds": 26.4185
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "2026-11-18T14:18:44.161929Z [info     ] [DAG TEST] starting task_id=publish map_index=-1 [airflow.sdk.definitions.dag] loc=dag.py:1501",
+   "2026-11-18T14:18:44.162152Z [info     ] [DAG TEST] running task <TaskInstance: daily_revenue_safe_gen.publish manual__2026-11-18T14:18:21.020654+00:00 [TaskInstanceState.SCHEDULED] ti_id=01a1ef05-dc44-708b-92ff-9022778b94c4> [airflow.sdk.definitions.dag] loc=dag.py:1504",
+   "2026-11-18T14:18:44.181014Z [info     ] Task started                   [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef06-3648-73b2-9f31-04298c698230 hostname=ip-172-31-12-151.eu-north-1.compute.internal loc=task_instances.py:226 previous_state=queued ti_id=01a1ef05-dc44-708b-92ff-9022778b94c4",
+   "2026-11-18T14:18:44.182964Z [info     ] Task instance state updated    [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef06-3648-73b2-9f31-04298c698230 loc=task_instances.py:254 rows_affected=1 ti_id=01a1ef05-dc44-708b-92ff-9022778b94c4",
+   "2026-11-18T14:18:44.208286Z [info     ] Updating RenderedTaskInstanceFields [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef06-3668-71da-b7c4-7727bbf408ec field_count=3 loc=task_instances.py:1017 ti_id=01a1ef05-dc44-708b-92ff-9022778b94c4",
+   "2026-11-18T14:18:44.218991Z [info     ] ::endgroup::                   [task] loc=task_runner.py:2232"
+  ],
+  "incomplete_generations_left": [
+   "g1795011497800733744"
+  ],
+  "next_run": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "2026-11-18T14:19:11.386701Z [info     ] Pushing xcom                   [task] loc=task_runner.py:2280 ti=RuntimeTaskInstance(id=UUID('01a1ef06-4323-7d20-ab56-7bc7ea19303c'), task_id='publish', dag_id='daily_revenue_safe_gen', run_id='manual__2026-11-18T14:18:47.385730+00:00', try_number=1, dag_version_id=UUID('01a1eefb-33e0-7c56-a40b-865d8fed5ca2'), map_index=-1, hostname='ip-172-31-12-151.eu-north-1.compute.internal', context_carrier=None, queue='default', task=<Task(_PythonDecoratedOperator): publish>, max_tries=0, start_date=datetime.datetime(2026, 11, 18, 14, 19, 7, 323036, tzinfo=datetime.timezone.utc), end_date=None, state=<TaskInstanceState.RUNNING: 'running'>, is_mapped=False, rendered_map_index=None, sentry_integration='')",
+    "2026-11-18T14:19:11.427539Z [info     ] Task instance state updated    [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef06-a0b1-764f-a89c-04b47335fd53 loc=task_instances.py:485 new_state=success rows_affected=1 ti_id=01a1ef06-4323-7d20-ab56-7bc7ea19303c",
+    "2026-11-18T14:19:11.437932Z [info     ] ::endgroup::                   [task] loc=task_runner.py:2379",
+    "2026-11-18T14:19:11.447125Z [info     ] [DAG TEST] end task task_id=publish map_index=-1 [airflow.sdk.definitions.dag] loc=dag.py:1563",
+    "2026-11-18T14:19:11.450121Z [info     ] Marking run <DagRun daily_revenue_safe_gen @ 2026-11-18 14:18:47.243479+00:00: manual__2026-11-18T14:18:47.385730+00:00, state:running, queued_at: None. run_type: manual> successful [airflow.models.dagrun.DagRun] loc=dagrun.py:1249",
+    "2026-11-18T14:19:11.450921Z [info     ] DagRun Finished: dag_id=daily_revenue_safe_gen, logical_date=2026-11-18 14:18:47.243479+00:00, run_id=manual__2026-11-18T14:18:47.385730+00:00, run_start_date=2026-11-18 14:18:47.243479+00:00, run_end_date=2026-11-18 14:19:11.450265+00:00, run_duration=24.206786, state=success, run_type=manual, data_interval_start=2026-11-18 14:18:47.243479+00:00, data_interval_end=2026-11-18 14:18:47.243479+00:00, [airflow.models.dagrun.DagRun] loc=dagrun.py:1315"
+   ]
+  }
+ },
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 1840,
+    "seconds": 28.0859
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "2026-11-18T14:19:41.543467Z [info     ] [DAG TEST] starting task_id=publish map_index=-1 [airflow.sdk.definitions.dag] loc=dag.py:1501",
+   "2026-11-18T14:19:41.543640Z [info     ] [DAG TEST] running task <TaskInstance: daily_revenue_safe_gen.publish manual__2026-11-18T14:19:17.249731+00:00 [TaskInstanceState.SCHEDULED] ti_id=01a1ef06-b7d1-7ff2-8291-3c1fba4bd415> [airflow.sdk.definitions.dag] loc=dag.py:1504",
+   "2026-11-18T14:19:41.561891Z [info     ] Task started                   [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef07-166d-7a9d-a3ec-be49f971778b hostname=ip-172-31-12-151.eu-north-1.compute.internal loc=task_instances.py:226 previous_state=queued ti_id=01a1ef06-b7d1-7ff2-8291-3c1fba4bd415",
+   "2026-11-18T14:19:41.563210Z [info     ] Task instance state updated    [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef07-166d-7a9d-a3ec-be49f971778b loc=task_instances.py:254 rows_affected=1 ti_id=01a1ef06-b7d1-7ff2-8291-3c1fba4bd415",
+   "2026-11-18T14:19:41.587791Z [info     ] Updating RenderedTaskInstanceFields [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef07-168c-7921-8a37-e7051c5c2c14 field_count=3 loc=task_instances.py:1017 ti_id=01a1ef06-b7d1-7ff2-8291-3c1fba4bd415",
+   "2026-11-18T14:19:41.599945Z [info     ] ::endgroup::                   [task] loc=task_runner.py:2232"
+  ],
+  "incomplete_generations_left": [
+   "g1795011553517844134"
+  ],
+  "next_run": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "2026-11-18T14:20:12.486842Z [info     ] Pushing xcom                   [task] loc=task_runner.py:2280 ti=RuntimeTaskInstance(id=UUID('01a1ef07-21f3-7618-8aa6-89c661bfb6ff'), task_id='publish', dag_id='daily_revenue_safe_gen', run_id='manual__2026-11-18T14:19:44.429702+00:00', try_number=1, dag_version_id=UUID('01a1eefb-33e0-7c56-a40b-865d8fed5ca2'), map_index=-1, hostname='ip-172-31-12-151.eu-north-1.compute.internal', context_carrier=None, queue='default', task=<Task(_PythonDecoratedOperator): publish>, max_tries=0, start_date=datetime.datetime(2026, 11, 18, 14, 20, 8, 384561, tzinfo=datetime.timezone.utc), end_date=None, state=<TaskInstanceState.RUNNING: 'running'>, is_mapped=False, rendered_map_index=None, sentry_integration='')",
+    "2026-11-18T14:20:12.521505Z [info     ] Task instance state updated    [airflow.api_fastapi.execution_api.routes.task_instances] correlation_id=01a1ef07-8f5a-7591-812f-6320c2e5d601 loc=task_instances.py:485 new_state=success rows_affected=1 ti_id=01a1ef07-21f3-7618-8aa6-89c661bfb6ff",
+    "2026-11-18T14:20:12.529760Z [info     ] ::endgroup::                   [task] loc=task_runner.py:2379",
+    "2026-11-18T14:20:12.541653Z [info     ] [DAG TEST] end task task_id=publish map_index=-1 [airflow.sdk.definitions.dag] loc=dag.py:1563",
+    "2026-11-18T14:20:12.544478Z [info     ] Marking run <DagRun daily_revenue_safe_gen @ 2026-11-18 14:19:44.298869+00:00: manual__2026-11-18T14:19:44.429702+00:00, state:running, queued_at: None. run_type: manual> successful [airflow.models.dagrun.DagRun] loc=dagrun.py:1249",
+    "2026-11-18T14:20:12.545457Z [info     ] DagRun Finished: dag_id=daily_revenue_safe_gen, logical_date=2026-11-18 14:19:44.298869+00:00, run_id=manual__2026-11-18T14:19:44.429702+00:00, run_start_date=2026-11-18 14:19:44.298869+00:00, run_end_date=2026-11-18 14:20:12.544770+00:00, run_duration=28.245901, state=success, run_type=manual, data_interval_start=2026-11-18 14:19:44.298869+00:00, data_interval_end=2026-11-18 14:19:44.298869+00:00, [airflow.models.dagrun.DagRun] loc=dagrun.py:1315"
+   ]
+  }
+ }
+]

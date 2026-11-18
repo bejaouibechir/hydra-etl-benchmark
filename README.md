@@ -67,11 +67,11 @@ python3 shared/crash_scenario.py modern ". ~/bench-envs/modern/bin/activate && .
 
 `make_probe_dag.py` writes a copy of the safe DAG with a 2 s pause between the two `os.replace` calls. The real window is a few milliseconds; the pause does not change what the code does, it only makes the window possible to hit on purpose.
 
-Results (`results/scenario5_visibility_and_kill/`), measured on November 18, 2026 in a Linux sandbox (Python 3.13, Hydra ETL 0.22.0, Airflow 3.3.2), **not on the EC2 machine of the other results**:
+Results (`results/scenario5_visibility_and_kill/`), measured on November 18, 2026 on a fresh EC2 machine of the same type as the other results (Ubuntu 24.04, 4 vCPUs, 15 GB, Python 3.12.3; Hydra ETL 0.22.0, Airflow 3.3.2). A first run in a Linux sandbox (Python 3.13) gave the same results. Raw files are in `ec2/`.
 
 | | Hydra ETL 0.22.0 | Hydra ETL 0.22.0 + write-ahead journal (unreleased patch) | Airflow + dlt + dbt |
 |---|---|---|---|
-| Reader during a normal run | mixed pair visible about 0.4 s of a 1.5 s run (5 of 5 runs) | same (the patch does not change visibility) | window of a few ms: 1 mixed observation in 3 runs, not conclusive |
+| Reader during a normal run | mixed pair visible 1.4 to 1.6 s of a 4 to 4.7 s run, about 35% (5 of 5 runs) | same (the patch does not change visibility) | no mixed pair seen in 5 runs: the window is a few ms, shorter than the reader's sampling |
 | Kill after the first report | mixed state stays on disk | mixed state stays on disk | mixed state stays on disk |
 | Next run, kill during step 2 | refuses to start, `hdrctl workflow undo` restores `previous \| previous` | same | overwrites silently, nothing detected |
 | Next run, kill just after the rename | **overwrites silently**, orphan `.hydra-bak-*` files left | refuses to start, `hdrctl workflow undo` restores `previous \| previous` | overwrites silently |
@@ -80,17 +80,17 @@ What this says, and does not say:
 
 - "All-or-nothing" holds once the run has finished, for all three stacks. It does not hold for a reader that looks while the run publishes, and none of the three stacks closes that on its own. Closing it needs the reader to cooperate: publish each run into its own directory, switch a manifest at the end, and have each reader resolve the manifest once. That is the approach Tim describes; it is not implemented here.
 - The Hydra ETL gap found by this test (journal written after the previous file was moved) is fixed by an unreleased patch: the journal is now written before. It covers CSV and Parquet outputs in `replace` mode only; database outputs and `append` mode are unchanged.
-- The reader reads the two files one after the other, so a single "mixed" sample a few milliseconds long (as for Airflow) can be a reading artefact. The 0.4 s window of Hydra ETL is not.
-- Few runs: five for Hydra's observe test and three for each of its kill tests; three for Airflow's observe test and two for its kill test. Not yet replayed on the EC2 machine, nor on the Airbyte stack.
+- The reader reads the two files one after the other, so a single "mixed" sample a few milliseconds long can be a reading artefact. The 1.4 to 1.6 s window of Hydra ETL is not. Its runs last 4 to 5 s here because the reader polls every millisecond; unobserved runs take 1 to 3 s.
+- Few runs: five observe runs and three per kill test for Hydra ETL and for Airflow; three observe runs and three per kill test for the generation variants. The Airbyte stack has not been tested.
 
 ### Publishing by generation: the recipe Tim describes, measured
 
 Tim's suggestion: write each run into its own directory, switch one manifest file at the end, and have each reader resolve the manifest once. Both stacks got that variant, with the same short helper (`shared/publish_generation.py`: check the generation is complete, switch the manifest, prune): `hydra_gen/` for Hydra ETL (a `python` action as the last step, **no change to the engine**) and `modern/dags/daily_revenue_safe_gen.py` for Airflow. The reader of `crash_scenario.py --manifest` does what a cooperating reader does.
 
-| Same sandbox, same dates | Hydra ETL generation variant | Airflow generation variant |
+| Same machine, same dates | Hydra ETL generation variant | Airflow generation variant |
 |---|---|---|
-| Reader during a normal run | never a mixed pair (5 runs) | never a mixed pair (2 runs) |
-| Kill as soon as the new generation holds its first report | the manifest stays on the previous generation; the reader sees only `previous \| previous` (6 kills) | same (2 kills, with the 2 s pause of `PROBE_PAUSE` between the two copies) |
+| Reader during a normal run | never a mixed pair (5 runs) | never a mixed pair (3 runs) |
+| Kill as soon as the new generation holds its first report | the manifest stays on the previous generation; the reader sees only `previous \| previous` (6 kills) | same (3 kills, with the 2 s pause of `PROBE_PAUSE` between the two copies) |
 | What is left on disk | one incomplete generation directory, never named by the manifest | same |
 | Next run | refuses to start until `hdrctl workflow undo` (the project keeps `rollback: true` for its fallback) | succeeds |
 
@@ -99,7 +99,7 @@ Reading these results:
 - The visibility point is closed for readers that cooperate, in both stacks, by the same recipe. It is a property of the recipe, not of either tool.
 - A reader that still opens `output/revenue_by_country.csv` finds nothing at that path any more: this changes the contract with everything downstream.
 - Pruning keeps the newest three generations. A reader that holds a generation while three more runs publish could lose its files; not tested.
-- Same limits as above: sandbox, few runs, no EC2, no Airbyte stack.
+- Same limits as above: few runs, no Airbyte stack.
 
 ## Layout
 
@@ -142,7 +142,7 @@ python3 -m venv ~/hv && ~/hv/bin/pip install hydra-etl pandas
 
 - Measured on October 28, 2026 with Hydra ETL 0.14.0, Airflow 3.3.2 and the dlt, dbt and Airbyte versions current that day (see `results/logs/`). The four failures were replayed with Hydra ETL 0.19.1 on November 5, 2026, with the same results.
 - One machine, 200,000 rows.
-- Scenario 5 was added later and measured in a sandbox, not on that machine; see its section.
+- Scenario 5 was added on November 18, 2026 and measured on a fresh EC2 machine of the same type; see its section.
 - Three runs per scenario (median), one for Airbyte.
 - Airflow runs use `airflow dags test`, which pays Airflow's start-up on every run; in production the scheduler runs continuously.
 - Airbyte runs in `--low-resource-mode`, with its file source read over SFTP.

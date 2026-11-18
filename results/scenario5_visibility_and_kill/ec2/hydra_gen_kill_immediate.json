@@ -1,0 +1,167 @@
+[
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 112,
+    "seconds": 2.3044
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "",
+   "  \u25b6  Project hydra_gen \u2014 1 workflow(s) in 1 stage(s)",
+   "",
+   "  Stage 1/1 \u2014 sequential",
+   "  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "  \u25b6  Workflow  daily_revenue"
+  ],
+  "incomplete_generations_left": [
+   "g1795010945839190166"
+  ],
+  "next_run": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "     \u2713  Step 'by_month' OK (1.2s)",
+    "     \u2713  Step 'publish' OK (0.1s)",
+    "  \u2713  Workflow 'daily_revenue' OK (3.0s)",
+    "",
+    "",
+    "  \u2705 Project 'hydra_gen' completed in 3.0s \u2014 1/1 workflow(s) OK"
+   ]
+  },
+  "recovery": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "Nothing to undo for 'daily_revenue'."
+   ]
+  }
+ },
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 121,
+    "seconds": 2.3671
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "",
+   "  \u25b6  Project hydra_gen \u2014 1 workflow(s) in 1 stage(s)",
+   "",
+   "  Stage 1/1 \u2014 sequential",
+   "  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "  \u25b6  Workflow  daily_revenue"
+  ],
+  "incomplete_generations_left": [
+   "g1795010952234007030"
+  ],
+  "next_run": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "     \u2713  Step 'by_month' OK (1.3s)",
+    "     \u2713  Step 'publish' OK (0.1s)",
+    "  \u2713  Workflow 'daily_revenue' OK (3.0s)",
+    "",
+    "",
+    "  \u2705 Project 'hydra_gen' completed in 3.0s \u2014 1/1 workflow(s) OK"
+   ]
+  },
+  "recovery": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "Nothing to undo for 'daily_revenue'."
+   ]
+  }
+ },
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 118,
+    "seconds": 1.7368
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "",
+   "  \u25b6  Project hydra_gen \u2014 1 workflow(s) in 1 stage(s)",
+   "",
+   "  Stage 1/1 \u2014 sequential",
+   "  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "  \u25b6  Workflow  daily_revenue"
+  ],
+  "incomplete_generations_left": [
+   "g1795010958696104932"
+  ],
+  "next_run": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "     \u2713  Step 'by_month' OK (1.5s)",
+    "     \u2713  Step 'publish' OK (0.1s)",
+    "  \u2713  Workflow 'daily_revenue' OK (3.3s)",
+    "",
+    "",
+    "  \u2705 Project 'hydra_gen' completed in 3.3s \u2014 1/1 workflow(s) OK"
+   ]
+  },
+  "recovery": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "main",
+    "revenue_by_month": "main"
+   },
+   "log_tail": [
+    "Nothing to undo for 'daily_revenue'."
+   ]
+  }
+ }
+]

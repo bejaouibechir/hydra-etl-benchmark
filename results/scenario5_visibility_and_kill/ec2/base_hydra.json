@@ -1,0 +1,110 @@
+[
+ {
+  "scenario": "normal",
+  "run": 1,
+  "exit_code": 0,
+  "seconds": 3.9,
+  "revenue_by_country": "main",
+  "revenue_by_month": "main",
+  "consistent": true
+ },
+ {
+  "scenario": "normal",
+  "run": 2,
+  "exit_code": 0,
+  "seconds": 3.59,
+  "revenue_by_country": "main",
+  "revenue_by_month": "main",
+  "consistent": true
+ },
+ {
+  "scenario": "normal",
+  "run": 3,
+  "exit_code": 0,
+  "seconds": 3.76,
+  "revenue_by_country": "main",
+  "revenue_by_month": "main",
+  "consistent": true
+ },
+ {
+  "scenario": "missing_source",
+  "run": 1,
+  "exit_code": 0,
+  "seconds": 3.74,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "missing_source",
+  "run": 2,
+  "exit_code": 0,
+  "seconds": 4.2,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "missing_source",
+  "run": 3,
+  "exit_code": 0,
+  "seconds": 3.24,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "bad_amount",
+  "run": 1,
+  "exit_code": 0,
+  "seconds": 4.41,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "bad_amount",
+  "run": 2,
+  "exit_code": 0,
+  "seconds": 3.97,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "bad_amount",
+  "run": 3,
+  "exit_code": 0,
+  "seconds": 3.77,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "bad_date",
+  "run": 1,
+  "exit_code": 0,
+  "seconds": 4.54,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "bad_date",
+  "run": 2,
+  "exit_code": 0,
+  "seconds": 4.95,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ },
+ {
+  "scenario": "bad_date",
+  "run": 3,
+  "exit_code": 0,
+  "seconds": 6.04,
+  "revenue_by_country": "backup",
+  "revenue_by_month": "backup",
+  "consistent": true
+ }
+]

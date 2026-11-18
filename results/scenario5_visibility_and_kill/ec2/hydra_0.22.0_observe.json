@@ -1,0 +1,187 @@
+[
+ {
+  "mode": "observe",
+  "manifest": false,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 102,
+    "seconds": 2.5215
+   },
+   "main | previous": {
+    "samples": 87,
+    "seconds": 1.4909
+   },
+   "main | main": {
+    "samples": 30,
+    "seconds": 0.3796
+   }
+  },
+  "inconsistent_seconds": 1.4909,
+  "inconsistent_pairs": [
+   "main | previous"
+  ],
+  "log_tail": [
+   "     \u2713  Step 'by_country' OK (2.1s)",
+   "     \u2713  Step 'by_month' OK (1.5s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.6s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra' completed in 3.6s \u2014 1/1 workflow(s) OK"
+  ]
+ },
+ {
+  "mode": "observe",
+  "manifest": false,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 108,
+    "seconds": 2.2315
+   },
+   "main | previous": {
+    "samples": 84,
+    "seconds": 1.3552
+   },
+   "main | main": {
+    "samples": 32,
+    "seconds": 0.3354
+   }
+  },
+  "inconsistent_seconds": 1.3552,
+  "inconsistent_pairs": [
+   "main | previous"
+  ],
+  "log_tail": [
+   "     \u2713  Step 'by_country' OK (1.6s)",
+   "     \u2713  Step 'by_month' OK (1.4s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.0s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra' completed in 3.0s \u2014 1/1 workflow(s) OK"
+  ]
+ },
+ {
+  "mode": "observe",
+  "manifest": false,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 121,
+    "seconds": 2.0735
+   },
+   "main | previous": {
+    "samples": 80,
+    "seconds": 1.5706
+   },
+   "main | main": {
+    "samples": 32,
+    "seconds": 0.4401
+   }
+  },
+  "inconsistent_seconds": 1.5706,
+  "inconsistent_pairs": [
+   "main | previous"
+  ],
+  "log_tail": [
+   "     \u2713  Step 'by_country' OK (1.7s)",
+   "     \u2713  Step 'by_month' OK (1.5s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.2s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra' completed in 3.2s \u2014 1/1 workflow(s) OK"
+  ]
+ },
+ {
+  "mode": "observe",
+  "manifest": false,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 102,
+    "seconds": 2.6235
+   },
+   "main | previous": {
+    "samples": 78,
+    "seconds": 1.5475
+   },
+   "main | main": {
+    "samples": 29,
+    "seconds": 0.4073
+   }
+  },
+  "inconsistent_seconds": 1.5475,
+  "inconsistent_pairs": [
+   "main | previous"
+  ],
+  "log_tail": [
+   "     \u2713  Step 'by_country' OK (2.1s)",
+   "     \u2713  Step 'by_month' OK (1.6s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.7s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra' completed in 3.7s \u2014 1/1 workflow(s) OK"
+  ]
+ },
+ {
+  "mode": "observe",
+  "manifest": false,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 107,
+    "seconds": 2.6416
+   },
+   "main | previous": {
+    "samples": 81,
+    "seconds": 1.6284
+   },
+   "main | main": {
+    "samples": 32,
+    "seconds": 0.4139
+   }
+  },
+  "inconsistent_seconds": 1.6284,
+  "inconsistent_pairs": [
+   "main | previous"
+  ],
+  "log_tail": [
+   "     \u2713  Step 'by_country' OK (2.2s)",
+   "     \u2713  Step 'by_month' OK (1.6s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.8s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra' completed in 3.8s \u2014 1/1 workflow(s) OK"
+  ]
+ }
+]

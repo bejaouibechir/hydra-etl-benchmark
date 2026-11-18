@@ -1,0 +1,162 @@
+[
+ {
+  "mode": "observe",
+  "manifest": true,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 197,
+    "seconds": 4.6195
+   },
+   "main | main": {
+    "samples": 28,
+    "seconds": 0.3798
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "     \u2713  Step 'by_month' OK (1.6s)",
+   "     \u2713  Step 'publish' OK (0.1s)",
+   "  \u2713  Workflow 'daily_revenue' OK (4.0s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra_gen' completed in 4.0s \u2014 1/1 workflow(s) OK"
+  ],
+  "incomplete_generations_left": []
+ },
+ {
+  "mode": "observe",
+  "manifest": true,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 183,
+    "seconds": 4.458
+   },
+   "main | main": {
+    "samples": 24,
+    "seconds": 0.3047
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "     \u2713  Step 'by_month' OK (1.5s)",
+   "     \u2713  Step 'publish' OK (0.1s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.8s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra_gen' completed in 3.8s \u2014 1/1 workflow(s) OK"
+  ],
+  "incomplete_generations_left": []
+ },
+ {
+  "mode": "observe",
+  "manifest": true,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 181,
+    "seconds": 4.0677
+   },
+   "main | main": {
+    "samples": 25,
+    "seconds": 0.3366
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "     \u2713  Step 'by_month' OK (1.5s)",
+   "     \u2713  Step 'publish' OK (0.1s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.5s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra_gen' completed in 3.5s \u2014 1/1 workflow(s) OK"
+  ],
+  "incomplete_generations_left": []
+ },
+ {
+  "mode": "observe",
+  "manifest": true,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 198,
+    "seconds": 4.226
+   },
+   "main | main": {
+    "samples": 29,
+    "seconds": 0.3532
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "     \u2713  Step 'by_month' OK (1.6s)",
+   "     \u2713  Step 'publish' OK (0.1s)",
+   "  \u2713  Workflow 'daily_revenue' OK (3.7s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra_gen' completed in 3.7s \u2014 1/1 workflow(s) OK"
+  ],
+  "incomplete_generations_left": []
+ },
+ {
+  "mode": "observe",
+  "manifest": true,
+  "exit_code": 0,
+  "killed": false,
+  "after_run": {
+   "revenue_by_country": "main",
+   "revenue_by_month": "main"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 163,
+    "seconds": 4.6184
+   },
+   "main | main": {
+    "samples": 25,
+    "seconds": 0.385
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "     \u2713  Step 'by_month' OK (1.8s)",
+   "     \u2713  Step 'publish' OK (0.1s)",
+   "  \u2713  Workflow 'daily_revenue' OK (4.1s)",
+   "",
+   "",
+   "  \u2705 Project 'hydra_gen' completed in 4.2s \u2014 1/1 workflow(s) OK"
+  ],
+  "incomplete_generations_left": []
+ }
+]

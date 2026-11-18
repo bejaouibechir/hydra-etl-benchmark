@@ -1,0 +1,176 @@
+[
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 97,
+    "seconds": 2.741
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "",
+   "  \u25b6  Project hydra_gen \u2014 1 workflow(s) in 1 stage(s)",
+   "",
+   "  Stage 1/1 \u2014 sequential",
+   "  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "  \u25b6  Workflow  daily_revenue"
+  ],
+  "incomplete_generations_left": [
+   "g1795010966676521091"
+  ],
+  "next_run": {
+   "exit_code": 1,
+   "after": {
+    "revenue_by_country": "previous",
+    "revenue_by_month": "previous"
+   },
+   "log_tail": [
+    "     \u23ed  Step 'by_month' skipped",
+    "     \u23ed  Step 'publish' skipped",
+    "  \u2717  Workflow 'daily_revenue' failed (0.0s): a previous run of 'daily_revenue' stopped before undoing its changes (/home/ubuntu/bench/hydra-etl-benchmark/hydra_gen/.hydra/undo/daily_revenue.json). Finish it with: hdrctl workflow undo daily_revenue \u2014 or delete that file if the data is fine.; fallback 'daily_revenue_backup' not started: a run of 'daily_revenue' left changes to undo (finish with: hdrctl workflow undo daily_revenue)",
+    "",
+    "",
+    "  \u274c Project 'hydra_gen' failed after 0.0s \u2014 failed: daily_revenue"
+   ]
+  },
+  "recovery": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "previous",
+    "revenue_by_month": "previous"
+   },
+   "log_tail": [
+    "\u21a9  Step 'by_country' undone",
+    "     \u2502 /home/ubuntu/bench/hydra-etl-benchmark/hydra_gen/output/gen/g1795010966676521091/revenue_by_country.csv: removed (it did not exist before)",
+    "",
+    "  \u2705 Workflow 'daily_revenue': 1 step(s) undone."
+   ]
+  }
+ },
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 100,
+    "seconds": 2.6622
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "",
+   "  \u25b6  Project hydra_gen \u2014 1 workflow(s) in 1 stage(s)",
+   "",
+   "  Stage 1/1 \u2014 sequential",
+   "  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "  \u25b6  Workflow  daily_revenue"
+  ],
+  "incomplete_generations_left": [
+   "g1795010972016941222"
+  ],
+  "next_run": {
+   "exit_code": 1,
+   "after": {
+    "revenue_by_country": "previous",
+    "revenue_by_month": "previous"
+   },
+   "log_tail": [
+    "     \u23ed  Step 'by_month' skipped",
+    "     \u23ed  Step 'publish' skipped",
+    "  \u2717  Workflow 'daily_revenue' failed (0.0s): a previous run of 'daily_revenue' stopped before undoing its changes (/home/ubuntu/bench/hydra-etl-benchmark/hydra_gen/.hydra/undo/daily_revenue.json). Finish it with: hdrctl workflow undo daily_revenue \u2014 or delete that file if the data is fine.; fallback 'daily_revenue_backup' not started: a run of 'daily_revenue' left changes to undo (finish with: hdrctl workflow undo daily_revenue)",
+    "",
+    "",
+    "  \u274c Project 'hydra_gen' failed after 0.0s \u2014 failed: daily_revenue"
+   ]
+  },
+  "recovery": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "previous",
+    "revenue_by_month": "previous"
+   },
+   "log_tail": [
+    "\u21a9  Step 'by_country' undone",
+    "     \u2502 /home/ubuntu/bench/hydra-etl-benchmark/hydra_gen/output/gen/g1795010972016941222/revenue_by_country.csv: removed (it did not exist before)",
+    "",
+    "  \u2705 Workflow 'daily_revenue': 1 step(s) undone."
+   ]
+  }
+ },
+ {
+  "mode": "kill",
+  "manifest": true,
+  "exit_code": -9,
+  "killed": true,
+  "after_run": {
+   "revenue_by_country": "previous",
+   "revenue_by_month": "previous"
+  },
+  "consistent_after_run": true,
+  "pairs": {
+   "previous | previous": {
+    "samples": 103,
+    "seconds": 2.675
+   }
+  },
+  "inconsistent_seconds": 0,
+  "inconsistent_pairs": [],
+  "log_tail": [
+   "",
+   "  \u25b6  Project hydra_gen \u2014 1 workflow(s) in 1 stage(s)",
+   "",
+   "  Stage 1/1 \u2014 sequential",
+   "  \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500",
+   "  \u25b6  Workflow  daily_revenue"
+  ],
+  "incomplete_generations_left": [
+   "g1795010977134738305"
+  ],
+  "next_run": {
+   "exit_code": 1,
+   "after": {
+    "revenue_by_country": "previous",
+    "revenue_by_month": "previous"
+   },
+   "log_tail": [
+    "     \u23ed  Step 'by_month' skipped",
+    "     \u23ed  Step 'publish' skipped",
+    "  \u2717  Workflow 'daily_revenue' failed (0.0s): a previous run of 'daily_revenue' stopped before undoing its changes (/home/ubuntu/bench/hydra-etl-benchmark/hydra_gen/.hydra/undo/daily_revenue.json). Finish it with: hdrctl workflow undo daily_revenue \u2014 or delete that file if the data is fine.; fallback 'daily_revenue_backup' not started: a run of 'daily_revenue' left changes to undo (finish with: hdrctl workflow undo daily_revenue)",
+    "",
+    "",
+    "  \u274c Project 'hydra_gen' failed after 0.0s \u2014 failed: daily_revenue"
+   ]
+  },
+  "recovery": {
+   "exit_code": 0,
+   "after": {
+    "revenue_by_country": "previous",
+    "revenue_by_month": "previous"
+   },
+   "log_tail": [
+    "\u21a9  Step 'by_country' undone",
+    "     \u2502 /home/ubuntu/bench/hydra-etl-benchmark/hydra_gen/output/gen/g1795010977134738305/revenue_by_country.csv: removed (it did not exist before)",
+    "",
+    "  \u2705 Workflow 'daily_revenue': 1 step(s) undone."
+   ]
+  }
+ }
+]

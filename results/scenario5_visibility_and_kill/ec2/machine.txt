@@ -1,0 +1,7 @@
+Linux ip-172-31-12-151 7.0.0-1017-aws #18~24.04.1-Ubuntu SMP PREEMPT Thu Oct 29 17:57:24 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+4
+               total        used        free      shared  buff/cache   available
+Mem:           15783         635       12695           2        2806       15147
+Swap:              0           0           0
+Description:	Ubuntu 24.04.5 LTS
+Python 3.12.3
