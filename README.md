@@ -19,6 +19,7 @@ Before every run, the outputs hold the day-before-yesterday's reports (198,000 o
 | `missing_source` | `data/orders.csv` is missing |
 | `bad_amount` | one amount is `abc`: the first report fails |
 | `bad_date` | one date is `2026-13-45`: only the second report fails |
+| `crash` (scenario 5) | the run is killed between the two publications, or a reader looks during the run: see below |
 
 Each stack has two variants:
 
@@ -44,6 +45,44 @@ pip install matplotlib
 python charts/make_charts.py results charts
 ```
 
+## Scenario 5: visibility and hard kill during publication
+
+Added on November 18, 2026 after a comment by Tim Urista on the article: `os.replace` is atomic for one file, but not for the set of reports. A reader can see two generations at once, and a process killed between the two renames leaves a mix on disk. The four scenarios above only check the state after the run has finished, so they cannot see this.
+
+`shared/crash_scenario.py` runs one stack in two modes:
+
+- `observe`: a reader polls both outputs while a normal run publishes them and records every (country, month) pair of versions it sees.
+- `kill`: the reader sends `SIGKILL` to the whole run the moment the country report is today's and the month report is still the day-before-yesterday's. It then reports what is left on disk, what the next run does, and the state after the stack's own recovery command.
+
+```bash
+# Hydra ETL
+python3 shared/crash_scenario.py hydra "hdrctl run ." observe --repeat 5
+python3 shared/crash_scenario.py hydra "hdrctl run ." kill --repeat 3 --kill-delay 0.3 --recover "hdrctl workflow undo daily_revenue"
+# Airflow + dlt + dbt: kill needs a DAG whose window between the two renames is long enough to hit
+python3 shared/make_probe_dag.py 2
+python3 shared/crash_scenario.py modern ". ~/bench-envs/modern/bin/activate && . ./env.sh && airflow dags test daily_revenue_safe_probe" kill
+```
+
+`--kill-delay` waits that many seconds after the pair is seen: `0` is the earliest possible moment, `0.3` falls during the second step.
+
+`make_probe_dag.py` writes a copy of the safe DAG with a 2 s pause between the two `os.replace` calls. The real window is a few milliseconds; the pause does not change what the code does, it only makes the window possible to hit on purpose.
+
+Results (`results/scenario5_visibility_and_kill/`), measured on November 18, 2026 in a Linux sandbox (Python 3.13, Hydra ETL 0.22.0, Airflow 3.3.2), **not on the EC2 machine of the other results**:
+
+| | Hydra ETL 0.22.0 | Hydra ETL 0.22.0 + write-ahead journal (unreleased patch) | Airflow + dlt + dbt |
+|---|---|---|---|
+| Reader during a normal run | mixed pair visible about 0.4 s of a 1.5 s run (5 of 5 runs) | same (the patch does not change visibility) | window of a few ms: 1 mixed observation in 3 runs, not conclusive |
+| Kill after the first report | mixed state stays on disk | mixed state stays on disk | mixed state stays on disk |
+| Next run, kill during step 2 | refuses to start, `hdrctl workflow undo` restores `previous \| previous` | same | overwrites silently, nothing detected |
+| Next run, kill just after the rename | **overwrites silently**, orphan `.hydra-bak-*` files left | refuses to start, `hdrctl workflow undo` restores `previous \| previous` | overwrites silently |
+
+What this says, and does not say:
+
+- "All-or-nothing" holds once the run has finished, for all three stacks. It does not hold for a reader that looks while the run publishes, and none of the three stacks closes that on its own. Closing it needs the reader to cooperate: publish each run into its own directory, switch a manifest at the end, and have each reader resolve the manifest once. That is the approach Tim describes; it is not implemented here.
+- The Hydra ETL gap found by this test (journal written after the previous file was moved) is fixed by an unreleased patch: the journal is now written before. It covers CSV and Parquet outputs in `replace` mode only; database outputs and `append` mode are unchanged.
+- The reader reads the two files one after the other, so a single "mixed" sample a few milliseconds long (as for Airflow) can be a reading artefact. The 0.4 s window of Hydra ETL is not.
+- Few runs: five for Hydra's observe test and three for each of its kill tests; three for Airflow's observe test and two for its kill test. Not yet replayed on the EC2 machine, nor on the Airbyte stack.
+
 ## Layout
 
 | Folder | Content |
@@ -51,7 +90,7 @@ python charts/make_charts.py results charts
 | `hydra/`, `hydra_simple/` | Hydra ETL project, safe and simple variants (YAML only) |
 | `modern/` | Airflow DAGs + dlt ingestion + dbt models (DuckDB) |
 | `airbyte/` | Airflow DAGs + Airbyte sync and setup scripts + dbt models (PostgreSQL) |
-| `shared/` | data generator, failure scenarios, line counter, report |
+| `shared/` | data generator, failure scenarios, line counter, report; `crash_scenario.py` and `make_probe_dag.py` (scenario 5) |
 | `run.py` | runs every phase with confirmations, progress and resume points |
 | `volume/` | separate volume test (200,000 to 20 million rows, without Airflow) |
 | `charts/` | charts and the script that draws them |
@@ -84,6 +123,7 @@ python3 -m venv ~/hv && ~/hv/bin/pip install hydra-etl pandas
 
 - Measured on October 28, 2026 with Hydra ETL 0.14.0, Airflow 3.3.2 and the dlt, dbt and Airbyte versions current that day (see `results/logs/`). The four failures were replayed with Hydra ETL 0.19.1 on November 5, 2026, with the same results.
 - One machine, 200,000 rows.
+- Scenario 5 was added later and measured in a sandbox, not on that machine; see its section.
 - Three runs per scenario (median), one for Airbyte.
 - Airflow runs use `airflow dags test`, which pays Airflow's start-up on every run; in production the scheduler runs continuously.
 - Airbyte runs in `--low-resource-mode`, with its file source read over SFTP.

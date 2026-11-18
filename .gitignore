@@ -11,3 +11,5 @@ airbyte/.credentials.json
 !results/logs/
 __pycache__/
 *.pyc
+modern/dags/daily_revenue_safe_probe.py
+modern/staging/
